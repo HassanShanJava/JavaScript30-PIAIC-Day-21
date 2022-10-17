@@ -11,7 +11,7 @@
 
   <h1 class="speed">
     <span class="speed-value">0</span>
-    <span class="units">KM/H</span>
+    <span class="units"> KM/H</span>
   </h1>
 
   <style>
@@ -62,13 +62,23 @@
     const arrow=document.querySelector(".arrow")
     const speed=document.querySelector(".speed-value")
 
-    navigator.geolocation.watchPosition((data)=>{
-      console.log(data);
-      speed.textContent=data.coords.speed
-      arrow.style.tramsform=`rotate(${data.coords.heading}deg)`
-    }, (error)=>{
-      console.log("denied!", error);
+
+    const successCallback=(data)=>{
+      console.log(data)
+ speed.textContent =Math.round(data.coords.latitude/3);
+      arrow.style.transform = `rotate(${data.coords.longitude}deg)`;
+    }
+    const errorCallback=(error)=>{
+      console.error(error);
+    }
+
+    navigator.geolocation.watchPosition(successCallback,errorCallback,{
+      enableHighAccuracy:true
     })
+
+
+    // to cancel watch
+    // navigator.geolocation.clearWatch(watchID)
 
 
 
